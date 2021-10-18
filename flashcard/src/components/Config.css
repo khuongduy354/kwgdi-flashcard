@@ -1,0 +1,51 @@
+/* config  mode*/
+.config__item-container {
+  display: flex;
+}
+.config__checkbox {
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  margin: auto 0;
+  margin-left: 3rem;
+}
+
+.config--cfcard {
+  align-self: center;
+  margin: 1rem 0;
+  width: 80%;
+  background: #ffffff;
+  display: flex;
+  transform: translate(-10px, -10px);
+  box-shadow: 3px 40px 40px rgba(0, 0, 0, 0.25);
+}
+
+.config--cfcard > * {
+  transition: width 0.75s;
+  padding: 1rem;
+  color: white;
+  width: calc(100% / 3);
+}
+
+/* segments */
+
+.cfcard__word {
+  color: black !important ;
+}
+
+.cfcard__definition {
+  background-color: var(--dark-blue-nav);
+}
+.cfcard__tag {
+  height: 100%;
+  padding: 1rem;
+
+  background-color: var(--orange);
+}
+
+/* segment focus */
+.cfcard__word:focus,
+.cfcard__definition:focus,
+.cfcard__tag:focus {
+  width: 80%;
+}

@@ -1,0 +1,65 @@
+/* display */
+.floatCard {
+  transform: translate(-5px, -5px);
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25);
+}
+.floatCard:hover {
+  transform: translate(-10px, -10px);
+  box-shadow: 3px 40px 40px rgba(0, 0, 0, 0.25);
+}
+.floatCard:focus {
+  background-color: red;
+}
+
+.display {
+  background-color: var(--light-blue-display);
+  min-height: 100vh;
+}
+
+.display__list {
+  max-width: 900px !important;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  place-items: center;
+  gap: 0.5rem;
+}
+
+.display--dpcard {
+  transition: linear 0.2s;
+
+  border-radius: 5px 5px 0px 0px;
+  width: 100%;
+  max-width: 250px;
+  margin: 1rem 0;
+  background: #ffffff;
+}
+
+/* .display--dpcard > * {
+  padding: 1rem;
+  color: white;
+} */
+.dpcard__word {
+  text-align: center;
+  padding: 0.75rem;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dpcard__word > span {
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+.dpcard__upper {
+  border-radius: 5px 5px 0px 0px;
+
+  height: 20px;
+  background-color: var(--dark-blue-nav);
+}
+
+.dpcard__lower {
+  height: 10px;
+  background-color: var(--orange);
+}
+/* footer */
