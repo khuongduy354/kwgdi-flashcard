@@ -1,6 +1,21 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./ModalAuth.css";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/features/Authentication/authenticationSlice";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "@firebase/auth";
+import firebaseApp from "../firebase";
 const ModalAuth = ({ isSignIn, setSignCallback }) => {
+  //redux
+  const dispatch = useDispatch();
+  //firebase auth
+  const auth = getAuth(firebaseApp);
+  const email = useRef(null);
+  const password1 = useRef(null);
+  const password2 = useRef(null);
   return (
     <div className="signUpForm">
       <form className=" container fade-in" style={{ border: "1px solid #ccc" }}>
@@ -12,6 +27,7 @@ const ModalAuth = ({ isSignIn, setSignCallback }) => {
           <b>Email</b>
         </label>
         <input
+          ref={email}
           className="signup__input"
           type="text"
           placeholder="Enter Email"
@@ -23,6 +39,7 @@ const ModalAuth = ({ isSignIn, setSignCallback }) => {
           <b>Password</b>
         </label>
         <input
+          ref={password1}
           className="signup__input"
           type="password"
           placeholder="Enter Password"
@@ -35,6 +52,7 @@ const ModalAuth = ({ isSignIn, setSignCallback }) => {
         </label>
         {!isSignIn && (
           <input
+            ref={password2}
             className="signup__input"
             type="password"
             placeholder="Repeat Password"
@@ -44,7 +62,34 @@ const ModalAuth = ({ isSignIn, setSignCallback }) => {
         )}
 
         <div class="clearfix">
-          <button type="submit" class="signupbtn">
+          <button
+            type="submit"
+            class="signupbtn"
+            onClick={(e) => {
+              e.preventDefault();
+              if (!isSignIn) {
+                if (password2.current.value == password1.current.value) {
+                  createUserWithEmailAndPassword(
+                    auth,
+                    email.current.value,
+                    password1.current.value
+                  )
+                    .then((user) =>
+                      dispatch(setUser({ email: user.email, uid: user.uid }))
+                    )
+                    .catch((e) => console.log(e));
+                }
+              } else {
+                signInWithEmailAndPassword(
+                  auth,
+                  email.current.value,
+                  password1.current.value
+                )
+                  .then((user) => console.log(user))
+                  .catch((e) => console.log(e));
+              }
+            }}
+          >
             Sign Up
           </button>
           <button

@@ -1,6 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
 /* font-family */
+html {
+  scroll-behavior: smooth;
+}
 :root {
   --general-font: "Poppins";
 }
@@ -29,21 +32,24 @@
   animation: fadeIn 1.25s;
   opacity: 1;
 }
-.appearIn-Out {
-  animation: appearIn-Out 0.5s forwards;
-}
 
 @keyframes appearIn-Out {
-  from {
+  0% {
+    transform: translate(0px, 0px);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  50% {
     transform: translate(-10px, -10px);
     box-shadow: 3px 40px 40px rgba(0, 0, 0, 0.25);
   }
-  to {
+  100% {
     transform: translate(0px, 0px);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
 }
-
+.appearIn-Out {
+  animation: appearIn-Out 0.6s;
+}
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -154,10 +160,10 @@ header .container {
 .home {
   display: flex;
   padding: 1rem 0;
-  min-height: 70vh;
+  min-height: calc(100vh - var(--nav-height));
 }
 .home__wrapper {
-  align-self: center;
+  place-self: center;
   flex: 1;
 }
 .home__content {

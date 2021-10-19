@@ -8,13 +8,13 @@ export const modeSlice = createSlice({
   initialState,
   reducers: {
     switchToDisplay: (state) => {
-      state.value = "display";
+      state.mode = "display";
     },
     switchToConfig: (state) => {
-      state.value = "config";
+      state.mode = "config";
     },
     switchToCreate: (state) => {
-      state.value = "create";
+      state.mode = "create";
     },
   },
 });

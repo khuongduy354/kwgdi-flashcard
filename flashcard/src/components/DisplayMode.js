@@ -3,11 +3,9 @@ import "./DisplayMode.css";
 const DisplayMode = ({ multiselect }) => {
   const [selected, setSelected] = useState([]);
   //render display card
-  console.log(selected);
-  const renderDisplayCard = (word, definition, tag) => {
+  const renderDisplayCard = (word, index, definition, tag) => {
     return (
       <li
-        //add card to selected
         onClick={() => {
           if (multiselect) {
             //check if card already in selected, insert it if not
@@ -19,6 +17,7 @@ const DisplayMode = ({ multiselect }) => {
             }
           }
         }}
+        style={{ animationDelay: `calc(0.1s*${index})` }}
         className={` ${
           multiselect && "floatCard"
         } display__item display--dpcard appearIn-Out`}
@@ -33,11 +32,11 @@ const DisplayMode = ({ multiselect }) => {
   };
   return (
     <ul className="display__list container">
-      {renderDisplayCard("hi")}
-      {renderDisplayCard("hi")}
-      {renderDisplayCard("why")}
-      {renderDisplayCard("hi")}
-      {renderDisplayCard("hi")}
+      {renderDisplayCard("hi", 1)}
+      {renderDisplayCard("hi", 2)}
+      {renderDisplayCard("why", 3)}
+      {renderDisplayCard("hi", 4)}
+      {renderDisplayCard("hi", 5)}
     </ul>
   );
 };
