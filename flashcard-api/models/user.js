@@ -7,7 +7,7 @@ const userModel = mongoose.model(
     flashcards: [
       {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: "Flashcard",
+        ref: "FlashCard",
       },
     ],
   })

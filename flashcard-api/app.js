@@ -56,7 +56,10 @@ app.get("/", (req, res) => {
 app.post("/makeCard/", async (req, res) => {
   const body = req.body;
   const wordsArray = body.words.split(",");
+  const userEmail = body.userEmail;
+  const userUid = body.userUid;
   const defsArray = body.definitions.split(",");
+  const querySet = await User.findOne({ uid: userUid, email: userEmail });
 
   if (defsArray.length != wordsArray.length) {
     res.status(400).send({
@@ -64,8 +67,12 @@ app.post("/makeCard/", async (req, res) => {
         "Please make sure the amount of words equal the amount of definitions",
     });
   } //link tag and card if has at least 1 tag
+  if (querySet == null) {
+    var theUser = await User.create({ email: userEmail, uid: userUid });
+  } else {
+    var theUser = querySet;
+  }
   if (body.tags) {
-    res.send("co tag");
     const tagsArray = body.tags.split(",");
     var tagsResult = [];
     for (let tag of tagsArray) {
@@ -83,19 +90,37 @@ app.post("/makeCard/", async (req, res) => {
         .then(async (card) => {
           for (let tag of tagsResult) {
             let result = await dbManipulation.addTagToCard(card._id, tag._id);
+            let result2 = await User.findByIdAndUpdate(theUser._id, {
+              $push: { flashcards: card._id },
+            });
           }
         });
     } //else just make cards
   } else {
     for (let i = 0; i < wordsArray.length; i++) {
-      dbManipulation.createFlashCard({
-        word: wordsArray[i],
-        definition: defsArray[i],
-      });
+      dbManipulation
+        .createFlashCard({
+          word: wordsArray[i],
+          definition: defsArray[i],
+        })
+        .then(async (card) => {
+          let result2 = await User.findByIdAndUpdate(theUser._id, {
+            $push: { flashcards: card._id },
+          });
+        });
     }
   }
   res.send("Success");
 });
+app.get("/getInitialCard/", async (req, res) => {
+  const userEmail = req.query.userEmail;
+  const result = await User.findOne(
+    { email: userEmail },
+    "flashcards"
+  ).populate("flashcards");
+  res.send(result.flashcards.slice(0, 12));
+});
+
 app.get("/getCard/", async (req, res) => {
   const cardName = req.get("cardName");
   const result = await dbManipulation.findCardByWord(cardName);
