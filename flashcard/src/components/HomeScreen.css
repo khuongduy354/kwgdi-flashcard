@@ -193,17 +193,29 @@ header .container {
 /* config bar */
 
 .config {
-  height: 20vh;
   min-height: 130px;
   background-color: var(--light-blue-config);
 }
 
 .config__wrapper {
+  min-width: 700px;
   display: flex;
-  width: 80%;
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .config__wrapper {
+    flex-direction: column;
+    min-width: 0px;
+    max-width: 600px;
+    justify-content: center;
+    align-items: center;
+  }
+  .config__search__wrapper {
+    margin: 0 auto;
+  }
 }
 .config .container {
   padding: 0;

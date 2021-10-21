@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useRef } from "react";
 import "./Creation.css";
+import { useSelector } from "react-redux";
 import { baseAPIUrl } from "../credentials";
 const Creation = () => {
+  const userEmail = useSelector((state) => state.userUid.user.email);
+  const userUid = useSelector((state) => state.userUid.user.uid);
   const words = useRef(null);
   const definitions = useRef(null);
   const tags = useRef(null);
@@ -11,6 +14,8 @@ const Creation = () => {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
+        userUid: userUid,
+        userEmail: userEmail,
         words: words.current.value,
         definitions: definitions.current.value,
         tags: tags.current.value,

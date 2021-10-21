@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "./HomeScreen.css";
 // components
 import Creation from "./Creation";
@@ -7,25 +8,23 @@ import ConfigMode from "./ConfigMode";
 import DisplayMode from "./DisplayMode";
 import ModalAuth from "./ModalAuth";
 import { FormGroup } from "@mui/material";
-import { FormControlLabel } from "@mui/material";
+import { FormControlLabel, TextField } from "@mui/material";
 import { Switch } from "@mui/material";
 //redux
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../redux/features/Authentication/authenticationSlice";
-
+import { addArrayOfCards } from "../redux/features/FlashCard/flashcardSlice";
 //firebase
 import { onAuthStateChanged } from "@firebase/auth";
 import firebaseApp from "../firebase";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { getAuth } from "firebase/auth";
+import { baseAPIUrl } from "../credentials";
 const HomeScreen = () => {
   //redux state
+  const [search, setSearch] = useState("");
   const mode = useSelector((state) => state.mode.mode);
-  const userEmail = useSelector((state) => state.userUid.user);
-  const userUid = useSelector((state) => state.userUid.user);
+  const userEmail = useSelector((state) => state.userUid.user.email);
+  const userUid = useSelector((state) => state.userUid.user.uid);
   const dispatch = useDispatch();
   //auth event listener
   const auth = getAuth(firebaseApp);
@@ -41,6 +40,18 @@ const HomeScreen = () => {
     };
     unsubscribe();
     return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    if (userEmail) {
+      axios
+        .get(`${baseAPIUrl}/getInitialCard/`, {
+          params: { userEmail: userEmail },
+        })
+        .then((res) => {
+          console.log(res.data);
+        });
+    }
   }, []);
   //states
   const [multiselect, setMultiSelect] = useState(false);
@@ -70,20 +81,28 @@ const HomeScreen = () => {
           <div className="config__wrapper container">
             <div className="config__bar">
               <div className="config__mode">
-                <BasicSelect
-                  title="Mode"
-                  inputValues={["display", "config", "create"]}
-                />
+                <BasicSelect title="Modes" />
               </div>
               <div className="config__action">
-                <BasicSelect
-                  title="Actions"
-                  inputValues={["delete", "add tags"]}
-                />
+                <BasicSelect title="Actions" />
               </div>
+              <button className="config__action--submit">
+                Dispatch Action
+              </button>
+              <button className="config__action--cancel">Cancel</button>
             </div>
             <div className="config__search__wrapper">
-              <input type="text" className="config__search" />
+              <TextField
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
+                className="config__search"
+                id="filled-basic"
+                label="Filled"
+                variant="filled"
+              />
+              <button className="config__search--submit">Go</button>
             </div>
           </div>
           <div className="config__multiselect container">

@@ -13,13 +13,23 @@ import {
   switchToCreate,
 } from "../src/redux/features/Mode/modeSlice";
 
-export default function BasicSelect({ title, inputValues }) {
+export default function BasicSelect({ title }) {
   const dispatch = useDispatch();
-  const [values, setValues] = useState(inputValues);
-  const [selected, setSelected] = useState("display");
+  const [values, setValues] = useState([]);
+  const [selected, setSelected] = useState("");
   const handleChange = (event) => {
     setSelected(event.target.value);
   };
+  useEffect(() => {
+    if (title == "Modes") {
+      setValues(["display", "config", "create"]);
+      setSelected("display");
+    }
+    if (title == "Actions") {
+      setValues(["delete"]);
+      setSelected("delete");
+    }
+  }, []);
   useEffect(() => {
     switch (selected) {
       case "display":
