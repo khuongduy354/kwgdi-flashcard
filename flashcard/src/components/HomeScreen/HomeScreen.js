@@ -3,9 +3,9 @@ import axios from "axios";
 import "./HomeScreen.css";
 // components
 import Creation from "./Creation";
-import BasicSelect from "../BasicDropdown";
+import BasicSelect from "./BasicDropdown";
 import ConfigMode from "./ConfigMode";
-import DisplayMode from "./DisplayMode";
+import DisplayMode from "./DisplayMode/DisplayMode";
 import ModalAuth from "./ModalAuth";
 import { FormGroup } from "@mui/material";
 import { FormControlLabel, TextField } from "@mui/material";

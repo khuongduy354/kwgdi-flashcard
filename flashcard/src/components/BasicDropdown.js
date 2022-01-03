@@ -11,7 +11,7 @@ import {
   switchToConfig,
   switchToDisplay,
   switchToCreate,
-} from "../src/redux/features/Mode/modeSlice";
+} from "../redux/features/Mode/modeSlice";
 
 export default function BasicSelect({ title }) {
   const dispatch = useDispatch();
